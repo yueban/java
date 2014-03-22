@@ -132,26 +132,19 @@ class BinarySearchTree{
 	}
 
 	private BinaryNode remove(Comparable x,BinaryNode t){
-		System.out.println("--->1");
 		if(t == null){
-			System.out.println("--->2");
 			return null;
 		}
 		if(x.compareTo(t.element) < 0){
-			System.out.println("--->3");
 			t.left = remove(x,t.left);
 		}else if(x.compareTo(t.element) > 0){
-			System.out.println("--->4");
 			t.right = remove(x,t.right);
 		}else if(t.left != null && t.right != null){
-			System.out.println("--->5");
 			t.element = findMin(t.right).element;
 			t.right = remove(t.element,t.right);
 		}else{
-			System.out.println("--->6");
 			t = (t.left != null)?t.left:t.right;
 		}
-		System.out.println("--->7");
 		return t;
 	}
 
