@@ -1,6 +1,13 @@
 public class SelectionSort{
 	public static void main(String[] args){
-		int[] num = {2,4,1,8,5,6,3};
+		int numItems = 115;
+		int base = 37;
+		int[] num = new int[numItems];
+		for(int i = base,j = 0;i != 0;i = (i + base) % numItems,j++){
+			num[j] = i;
+			System.out.print(i + " ");
+		}
+		System.out.println();
 		selectionSort(num);
 		for(int i : num){
 			System.out.print(i + " ");

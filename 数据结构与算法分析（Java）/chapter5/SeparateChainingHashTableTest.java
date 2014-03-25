@@ -1,3 +1,4 @@
+//分离链接法实现散列
 public class SeparateChainingHashTableTest{
 	public static void main(String[] args){
 		SeparateChainingHashTable scht = new SeparateChainingHashTable();

@@ -1,3 +1,4 @@
+//AVL树
 public class AvlTreeTest{
 	public static void main(String[] args){
 		AvlTree at = new AvlTree();
@@ -11,6 +12,7 @@ public class AvlTreeTest{
 	}
 }
 
+//AVL树节点类，与普通的树的节点类不同的是多了一个height记录当前节点的高度，用于比较保证当前的树满足AVL树的性质
 class AvlNode{
 	AvlNode(Comparable theElement){
 		this(theElement,null,null);
@@ -28,6 +30,7 @@ class AvlNode{
 	int height;
 }
 
+//AVL树
 class AvlTree{
 	public AvlTree(){
 		root = null;
@@ -88,6 +91,7 @@ class AvlTree{
 			t = new AvlNode(x,null,null);
 		}else if(x.compareTo(t.element) < 0){
 			t.left = insert(x,t.left);
+			//插入后若高度不满足AVL树的性质，需要根据情况作旋转
 			if(height(t.left) - height(t.right) == 2){
 				if(x.compareTo(t.left.element) < 0){
 					t = rotateWithLeftChild(t);
@@ -105,10 +109,12 @@ class AvlTree{
 				}
 			}
 		}
+		//节点的高度为其儿子中较高的那个加1
 		t.height = Math.max(height(t.left),height(t.right)) + 1;
 		return t;
 	}
 
+	//因为AVL树也是二叉查找树，所以最左边的叶子就是最小的节点
 	private AvlNode findMin(AvlNode t){
 		if(t == null){
 			return null;
@@ -119,6 +125,7 @@ class AvlTree{
 		return t;
 	}
 
+	//因为AVL树也是二叉查找树，所以最右边的叶子就是最大的节点
 	private AvlNode findMax(AvlNode t){
 		if(t == null){
 			return null;
@@ -150,6 +157,7 @@ class AvlTree{
 		}
 	}
 
+	//左旋转
 	private AvlNode rotateWithLeftChild(AvlNode k2){
 		AvlNode k1 = k2.left;
 		k2.left = k1.right;
@@ -159,6 +167,7 @@ class AvlTree{
 		return k1;
 	}
 
+	//又旋转
 	private AvlNode rotateWithRightChild(AvlNode k1){
 		AvlNode k2 = k1.right;
 		k1.right = k2.left;
@@ -168,11 +177,13 @@ class AvlTree{
 		return k2;
 	}
 
+	//左双旋转
 	private AvlNode doubleWithLeftChild(AvlNode t){
 		t.left = rotateWithRightChild(t.left);
 		return rotateWithLeftChild(t);
 	}
 
+	//右双旋转
 	private AvlNode doubleWithRightChild(AvlNode t){
 		t.right = rotateWithLeftChild(t.right);
 		return rotateWithRightChild(t);

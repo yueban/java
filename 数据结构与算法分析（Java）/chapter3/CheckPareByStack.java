@@ -1,14 +1,15 @@
 import java.util.Scanner;
 import java.io.File;
 
+//通过栈验证代码中括号是否一一对应
 public class CheckPareByStack{
+	//声明括号数组
 	static final String[] Pare = {"(",")","[","]","{","}"};
 
 	public static void main(String[] args){
 		Scanner input = null;
 		try{
 			input = new Scanner(new File("D:\\kuaipan\\code\\java\\数据结构与算法分析（Java）\\chapter3\\StackArTest.java"));
-			//input = new Scanner("{[\n(\n)]}");
 		}catch(Exception e){
 			System.out.println(e);
 		}
@@ -16,10 +17,10 @@ public class CheckPareByStack{
 		while(input.hasNextLine()){
 			sb.append(input.nextLine());
 		}
-		//System.out.println(sb.toString());
 		System.out.println(CheckPare(sb));
 	}
 
+	//检查sb中括号是否一一对应
 	public static boolean CheckPare(StringBuilder sb){
 		int length = sb.length();
 		StackAr stack = new StackAr(20);
@@ -40,6 +41,7 @@ public class CheckPareByStack{
 		return stack.isEmpty()?true:false;
 	}
 
+	//是否是左括号
 	public static boolean isLeftPare(String s){
 		for(int i = 0;i < Pare.length;i+=2){
 			if(s.equals(Pare[i])){
@@ -49,6 +51,7 @@ public class CheckPareByStack{
 		return false;
 	}
 
+	//是否是右括号
 	public static boolean isRightPare(String s){
 		for(int i = 1;i < Pare.length;i+=2){
 			if(s.equals(Pare[i])){
@@ -58,6 +61,7 @@ public class CheckPareByStack{
 		return false;
 	}
 
+	//两括号是否匹配
 	public static boolean isMatched(String a,String b){
 		if( (a.equals(Pare[0]) && b.equals(Pare[1])) || 
 			(a.equals(Pare[2]) && b.equals(Pare[3])) || 
@@ -68,6 +72,7 @@ public class CheckPareByStack{
 	}
 }
 
+//栈的数组实现
 class StackAr{
 	public StackAr(int eleAmount){
 		theArray = new String[eleAmount];

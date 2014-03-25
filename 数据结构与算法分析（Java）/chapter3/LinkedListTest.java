@@ -10,6 +10,8 @@ public class LinkedListTest{
 		printList(list);
 		list.remove(12);
 		printList(list);
+		list.swapNext(11);
+		printList(list);
 		System.out.println(list.first().retrieve());
 	}
 
@@ -45,10 +47,11 @@ class ListNode{
 	ListNode next;
 }
 
-//链表迭代类，用于检索节点，因为节点只负责存储数据和指向下一个节点，所以需要一个类来扫描节点
-//具有查看当前节点元素（retrieve()）和扫描下一个节点的方法（advance()）
+//链表枚举类，用于检索节点，因为节点只负责存储数据和指向下一个节点，所以需要一个类来扫描节点
+//可以查看当前节点（current）、查看当前节点元素（retrieve）、扫描下一个节点（advance）、是否扫描完了整个链表（isPastEnd）
 class LinkedListItr{
-	LinkedListItr(ListNode theNode){
+	LinkedListItr(LinkedList theList,ListNode theNode){
+		list = theList;
 		current = theNode;
 	}
 
@@ -66,6 +69,7 @@ class LinkedListItr{
 		}
 	}
 
+	LinkedList list;
 	ListNode current;
 }
 
@@ -84,11 +88,11 @@ class LinkedList{
 	}
 
 	public LinkedListItr zeroth(){
-		return new LinkedListItr(header);
+		return new LinkedListItr(this,header);
 	}
 
 	public LinkedListItr first(){
-		return new LinkedListItr(header.next);
+		return new LinkedListItr(this,header.next);
 	}
 
 	public LinkedListItr find(Object x){
@@ -96,7 +100,7 @@ class LinkedList{
 		while(itr != null && !itr.element.equals(x)){
 			itr = itr.next;
 		}
-		return new LinkedListItr(itr);
+		return new LinkedListItr(this,itr);
 	}
 
 	public void remove(Object x){
@@ -111,13 +115,24 @@ class LinkedList{
 		while(itr.next != null && !itr.next.element.equals(x)){
 			itr = itr.next;
 		}
-		return new LinkedListItr(itr);
+		return new LinkedListItr(this,itr);
 	}
 
 	public void insert(Object x,LinkedListItr p){
-		if(p != null && p.current != null){
+		System.out.println(p.list == this);
+		if(p.list == this && p != null && p.current != null){
 			p.current.next = new ListNode(x,p.current.next);
 		}
+	}
+
+	//将x所在节点与它之后的节点交换位置
+	public void swapNext(Object x){
+		ListNode pNode = findPrevious(x).current;
+		ListNode xNode = pNode.next;
+		ListNode yNode = xNode.next;
+		pNode.next = yNode;
+		xNode.next = yNode.next;
+		yNode.next = xNode;
 	}
 
 	private ListNode header;
